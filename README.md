@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+Ver管理
+
+24-07-06    0.1.0
+    ひな型ファイルの準備
+
+24-07-11    1.0.0
+    Googlemapを表示させるためMapComponentを作成
+    マップ上にピンを表示させるためPinを作成、MapComponentにピンを追加
+    TOPページにMapComponenを追加して、マップの表示ができるようにした
+    TOPページにピンを追加する機能とピンの位置に移動するボタンを作成
+    TOPページに保存されたピンの数と現在示しているピンを表示
+    TOPページに中心の緯度と経度を表示

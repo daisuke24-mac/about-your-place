@@ -1,95 +1,66 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+import React, { useState, useCallback, useRef } from 'react';
+import MapComponent from './components/MapComponent/route.js';
 
-export default function Home() {
+const HomePage = () => {
+  const [center, setCenter] = useState({ lat: 35.6851, lng: 139.7527 }); // 東京
+  const [locations, setLocations] = useState([]);
+  const [currentLocationIndex, setCurrentLocationIndex] = useState(-1);
+  const mapRef = useRef(null);
+  const [buttonPressed, setButtonPressed] = useState(false);
+
+  const addLocation = useCallback(() => {
+    const newLocation = {
+      key: `location_${locations.length}`,
+      location: { ...center }
+    };
+    setLocations(prevLocations => [...prevLocations, newLocation]);
+    if (locations.length === 0) {
+      setCurrentLocationIndex(0);
+    }
+  }, [center, locations.length]);
+
+  const moveToNextLocation = useCallback(() => {
+    if (locations.length === 0) return;
+
+    const nextIndex = !buttonPressed ? 0 : (currentLocationIndex + 1) % locations.length;
+    setCurrentLocationIndex(nextIndex);
+    setCenter(locations[nextIndex].location);
+    if (!buttonPressed) {
+      setButtonPressed(true);
+    }
+  }, [locations, currentLocationIndex, buttonPressed]);
+
+  const handleCenterChange = useCallback((newCenter) => {
+    setCenter(newCenter);
+  }, []);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
+    <div>
+      <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000 }}>
+        <button onClick={addLocation} style={{ margin: '5px' }}>
+          現在の中心を追加
+        </button>
+        <button onClick={moveToNextLocation} style={{ margin: '5px' }}>
+          次の位置へ移動
+        </button>
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          保存された位置: {locations.length}
+          {currentLocationIndex !== -1 && ` (現在: ${currentLocationIndex + 1}番目)`}
+        </div>
+        <div>
+          中心点: 緯度 {center.lat.toFixed(4)}, 経度 {center.lng.toFixed(4)}
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <MapComponent
+        ref={mapRef}
+        center={center} 
+        locations={locations} 
+        onCenterChange={handleCenterChange}
+        currentLocationIndex={currentLocationIndex}
+      />
+    </div>
   );
-}
+};
+
+export default HomePage;
