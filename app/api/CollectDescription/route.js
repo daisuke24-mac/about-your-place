@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import connectDB from '../../utils/database.js'
 import { ItemModel } from '../../utils/schemaModels.js'
-import { getDescription } from '../Description/route.js'
+import { getDescription } from '../../utils/gemini.js'
 
 // const getDetails = async (place) => {
 //     const prompt = `Describe the characteristics of ${place} in 3 lines, focusing on its geography, history, and culture. in Japanese`
@@ -24,7 +24,7 @@ import { getDescription } from '../Description/route.js'
 // }
 
 const createItems = async (item) => {
-    console.log(item)
+    // console.log(item)
     try {
         await ItemModel.create(item)
         return NextResponse.json({message: "アイテムの作成成功"})
@@ -46,7 +46,7 @@ export async function POST(req) {
         if (count === 0) {
             // detail = await getDetails(city)
             detail = await getDescription(prompt)
-            console.log("detail:",detail)
+            // console.log("detail:",detail)
             const item = {
                 "city": city,
                 "country": country,

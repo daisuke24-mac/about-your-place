@@ -90,8 +90,8 @@ const MapComponent = forwardRef(({ center, locations, currentLocationIndex, onCe
     }, []);
 
     const getWeather = async(place) => {
-        console.log("place:",place.address_components[place.address_components.length-3].long_name)
-        console.log("postcode:",place)
+        // console.log("place:",place.address_components[place.address_components.length-3].long_name)
+        // console.log("postcode:",place)
         await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${place.geometry.location.lat()}&lon=${place.geometry.location.lng()}&appid=${apikey_weather}&units=metric`)
         .then(response => response.json())
         .then(data => {
@@ -103,7 +103,7 @@ const MapComponent = forwardRef(({ center, locations, currentLocationIndex, onCe
     }
 
     const itemCheck = async (place) => {
-        console.log('itemCheck')
+        // console.log('itemCheck')
         try {
             const response = await fetch('/api/CollectDescription', {
                 method: "POST",

@@ -35,7 +35,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-Ver管理
+## Version Management
 
 24-07-06    0.1.0
     ひな型ファイルの準備
@@ -53,3 +53,8 @@ Ver管理
     Descriptionを追加してGeminiAPIとの連携、土地に関するスクリプトを表示する機能を追加
     CollectDescriptionを追加してmongoDBとの連携、アイテムの探索・登録を行う機能を追加
     DBとの連携のためdatabase.jsとschemaModels.jsを追加
+
+24-07-17    2.1.0
+    デプロイのためDescription/route.jsをutilsに移動、route.js→gemini.jsに変更
+    上記の変更に合わせてパスを修正
+    console.logをすべてコメントアウト

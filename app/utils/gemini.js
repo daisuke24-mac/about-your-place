@@ -20,6 +20,5 @@ export async function getDescription(prompt) {
     const model = genAI.getGenerativeModel({ model: "gemini-pro"});
     const result = await model.generateContentStream(prompt);
     const response = await result.response
-    // console.log(prompt)
     return response.text()
 }
