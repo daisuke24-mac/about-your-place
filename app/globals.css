@@ -119,3 +119,14 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* styles/autocomplete.css */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+}

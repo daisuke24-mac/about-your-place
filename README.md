@@ -47,3 +47,9 @@ Ver管理
     TOPページにピンを追加する機能とピンの位置に移動するボタンを作成
     TOPページに保存されたピンの数と現在示しているピンを表示
     TOPページに中心の緯度と経度を表示
+
+24-07-17    2.0.0
+    autoCompleteを追加して検索窓とオートフィル機能を追加
+    Descriptionを追加してGeminiAPIとの連携、土地に関するスクリプトを表示する機能を追加
+    CollectDescriptionを追加してmongoDBとの連携、アイテムの探索・登録を行う機能を追加
+    DBとの連携のためdatabase.jsとschemaModels.jsを追加
