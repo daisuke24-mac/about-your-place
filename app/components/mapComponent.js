@@ -1,12 +1,12 @@
 "use client"
 // import React, { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 // import { APIProvider, Map, AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
-import Pin from '../Pin/route.js';
+import Pin from './pin.js';
 // 追加↓
 import React, { useCallback, useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import { APIProvider, ControlPosition, Map, AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
-import { CustomMapControl } from '../../pages/autoComplete/map-control.tsx';
-import MapHandler from '../../pages/autoComplete/map-handler.tsx';
+import { CustomMapControl } from '../pages/autoComplete/map-control.tsx';
+import MapHandler from '../pages/autoComplete/map-handler.tsx';
 // 追加↑
 const MapPin = ({ center, locations, currentLocationIndex, onCenterChange }) => {
     const map = useMap();

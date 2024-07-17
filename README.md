@@ -58,3 +58,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
     デプロイのためDescription/route.jsをutilsに移動、route.js→gemini.jsに変更
     上記の変更に合わせてパスを修正
     console.logをすべてコメントアウト
+
+24-07-17    2.2.0
+    components/MapComponent/route.jsをcomponents/mapComponent.jsに修正
+    components/Pin/route.jsroute.jsをcomponents/pin.jsに変更
+    上記の変更に合わせてパスを修正

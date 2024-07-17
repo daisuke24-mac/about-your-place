@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useCallback, useRef } from 'react';
-import MapComponent from './components/MapComponent/route.js';
+import MapComponent from './components/mapComponent.js';
 
 const HomePage = () => {
   const [center, setCenter] = useState({ lat: 35.6851, lng: 139.7527 }); // 東京
