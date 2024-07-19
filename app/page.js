@@ -39,17 +39,17 @@ const HomePage = () => {
     <div>
       <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000 }}>
         <button onClick={addLocation} style={{ margin: '5px' }}>
-          現在の中心を追加
+          Add Pin
         </button>
         <button onClick={moveToNextLocation} style={{ margin: '5px' }}>
-          次の位置へ移動
+          Move to Next
         </button>
         <div>
-          保存された位置: {locations.length}
-          {currentLocationIndex !== -1 && ` (現在: ${currentLocationIndex + 1}番目)`}
+          Saved Point: {locations.length}
+          {currentLocationIndex !== -1 && ` (Current: No.${currentLocationIndex + 1})`}
         </div>
         <div>
-          中心点: 緯度 {center.lat.toFixed(4)}, 経度 {center.lng.toFixed(4)}
+          Center: Lat {center.lat.toFixed(4)}, Lng {center.lng.toFixed(4)}
         </div>
       </div>
       <MapComponent

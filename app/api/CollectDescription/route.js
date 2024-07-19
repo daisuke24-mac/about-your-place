@@ -3,33 +3,12 @@ import connectDB from '../../utils/database.js'
 import { ItemModel } from '../../utils/schemaModels.js'
 import { getDescription } from '../../utils/gemini.js'
 
-// const getDetails = async (place) => {
-//     const prompt = `Describe the characteristics of ${place} in 3 lines, focusing on its geography, history, and culture. in Japanese`
-//     console.log("prompt:",prompt)
-//     try {
-//         const response = await fetch("/Description", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({ prompt_post: prompt }),
-//         })
-//         const data = await response.json()
-//         console.log("descrption:",data.message)
-//         return data.message
-//     } catch (error) {
-//         console.error("Error fetching details:", error)
-//         return null
-//     }
-// }
-
 const createItems = async (item) => {
-    // console.log(item)
     try {
         await ItemModel.create(item)
-        return NextResponse.json({message: "アイテムの作成成功"})
+        return NextResponse.json({message: "successed to create item"})
     } catch (error) {
-        return NextResponse.json({message: "アイテムの作成失敗"})
+        return NextResponse.json({message: "failed to create item"})
     }
 }
 
@@ -44,9 +23,7 @@ export async function POST(req) {
         let count = items.length
         let detail = ''
         if (count === 0) {
-            // detail = await getDetails(city)
             detail = await getDescription(prompt)
-            // console.log("detail:",detail)
             const item = {
                 "city": city,
                 "country": country,
