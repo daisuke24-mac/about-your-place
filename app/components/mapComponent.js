@@ -1,5 +1,6 @@
 "use client"
 import React, { useCallback, useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
+import {createRoot} from 'react-dom/client';
 import { APIProvider, ControlPosition, Map } from '@vis.gl/react-google-maps';
 import MapPin from './pin.js';
 import { CustomMapControl } from '../pages/autoComplete/map-control.tsx';
@@ -17,6 +18,7 @@ const MapComponent = forwardRef(({ center, locations, currentLocationIndex, onCe
     });
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [description, setDescription] = useState("");
+    const [isMinimized, setIsMinimized] = useState(false);
 
     const getWeather = async(place) => {
         await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${place.geometry.location.lat()}&lon=${place.geometry.location.lng()}&appid=${apikey_weather}&units=metric`)
@@ -74,7 +76,13 @@ const MapComponent = forwardRef(({ center, locations, currentLocationIndex, onCe
         getItem(place);
     }, []);
 
+
     const LandInformation = () => {
+
+        const toggleMinimize = () => {
+            setIsMinimized(!isMinimized);
+        };
+
         return (
             <div>
                 {selectedPlace && (
@@ -82,21 +90,57 @@ const MapComponent = forwardRef(({ center, locations, currentLocationIndex, onCe
                         position: 'absolute',
                         bottom: '20px',
                         left: '20px',
+                        width: isMinimized ? '40px' : 'calc(100% - 40px)',
+                        maxWidth: '400px',
+                        height: isMinimized ? '40px' : 'auto',
+                        maxHeight: 'calc(100vh - 40px)',
                         backgroundColor: 'black',
+                        color: 'white',
                         padding: '10px',
                         borderRadius: '5px',
                         boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-                        zIndex: 1000
+                        zIndex: 1000,
+                        overflow: 'auto',
+                        transition: 'all 0.3s ease'
                     }}>
-                        <h2>Selected Location</h2>
-                        {selectedPlace.name && <p>Location: {selectedPlace.name}</p>}
-                        {selectedPlace.address_components && <p>Area: {selectedPlace.address_components[selectedPlace.address_components.length-2].long_name}</p>}
-                        {selectedPlace.geometry?.location && (
+                        <button 
+                            onClick={toggleMinimize}
+                            style={{
+                                position: 'absolute',
+                                top: '5px',
+                                right: '5px',
+                                width: '30px',
+                                height: '30px',
+                                background: 'none',
+                                border: 'none',
+                                color: 'white',
+                                fontSize: '30px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '0',
+                                margin: '0',
+                                borderRadius: '5px', // ボタンの角を少し丸める
+                            }}
+                        >
+                            {isMinimized ? '+' : '-'}
+                        </button>
+                        {!isMinimized && (
                             <>
-                                <p>Lat: {selectedPlace.geometry.location.lat()}</p>
-                                <p>Lng: {selectedPlace.geometry.location.lng()}</p>
-                                <p>current Weather: {weather}℃</p>
-                                <p>Description: {description}</p>
+                                <h2>Selected Location</h2>
+                                {selectedPlace.name && <p>Location: {selectedPlace.name}</p>}
+                                {selectedPlace.address_components && selectedPlace.address_components.length > 1 && (
+                                    <p>Area: {selectedPlace.address_components[selectedPlace.address_components.length-2]?.long_name || 'Not available'}</p>
+                                )}
+                                {selectedPlace.geometry?.location && (
+                                    <>
+                                        <p>Lat: {selectedPlace.geometry.location.lat()}</p>
+                                        <p>Lng: {selectedPlace.geometry.location.lng()}</p>
+                                        <p>Current Weather: {weather}℃</p>
+                                        <p>Description: {description}</p>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>
@@ -104,6 +148,7 @@ const MapComponent = forwardRef(({ center, locations, currentLocationIndex, onCe
             </div>
         )
     }
+
 
     return (
         <div style={{ height: '100vh', margin: 0, padding: 0 }}>
@@ -138,6 +183,73 @@ const MapComponent = forwardRef(({ center, locations, currentLocationIndex, onCe
     );
 });
 
-MapComponent.displayName = 'MapComponent';
+export default function HomePage() {
+    const [center, setCenter] = useState({ lat: 35.6851, lng: 139.7527 }); // 東京
+    const [locations, setLocations] = useState([]);
+    const [currentLocationIndex, setCurrentLocationIndex] = useState(-1);
+    const mapRef = useRef(null);
+    const [buttonPressed, setButtonPressed] = useState(false);
+  
+    const addLocation = useCallback(() => {
+      const newLocation = {
+        key: `location_${locations.length}`,
+        location: { ...center }
+      };
+      setLocations(prevLocations => [...prevLocations, newLocation]);
+      if (locations.length === 0) {
+        setCurrentLocationIndex(0);
+      }
+    }, [center, locations.length]);
+  
+    const moveToNextLocation = useCallback(() => {
+      if (locations.length === 0) return;
+  
+      const nextIndex = !buttonPressed ? 0 : (currentLocationIndex + 1) % locations.length;
+      setCurrentLocationIndex(nextIndex);
+      setCenter(locations[nextIndex].location);
+      if (!buttonPressed) {
+        setButtonPressed(true);
+      }
+    }, [locations, currentLocationIndex, buttonPressed]);
+  
+    const handleCenterChange = useCallback((newCenter) => {
+      setCenter(newCenter);
+    }, []);
+  
+    return (
+      <div>
+        <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000 }}>
+          <button onClick={addLocation} style={{ margin: '5px' }}>
+            Add Pin
+          </button>
+          <button onClick={moveToNextLocation} style={{ margin: '5px' }}>
+            Move to Next
+          </button>
+          <div>
+            Saved Point: {locations.length}
+            {currentLocationIndex !== -1 && ` (Current: No.${currentLocationIndex + 1})`}
+          </div>
+          <div>
+            Center: Lat {center.lat.toFixed(4)}, Lng {center.lng.toFixed(4)}
+          </div>
+        </div>
+        <MapComponent
+          ref={mapRef}
+          center={center} 
+          locations={locations} 
+          onCenterChange={handleCenterChange}
+          currentLocationIndex={currentLocationIndex}
+        />
+      </div>
+    );
+  }
 
-export default MapComponent;
+  
+let root = null;
+
+export function renderToDom(container) {
+    if (!root) {
+        root = createRoot(container);
+    }
+    root.render(<HomePage />);
+}

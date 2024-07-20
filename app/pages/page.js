@@ -21,11 +21,6 @@ export default function AutocompletePage() {
   return (
     <>
       <Head>
-        <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no"
-        />
         <title>Autocomplete Examples</title>
         <meta name="description" content="Autocomplete Examples" />
       </Head>
