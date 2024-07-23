@@ -78,3 +78,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
     各種ボタンやコントロールパネルなどのUI・UXを修正
     それに合わせてフォントや画像のインポートを追加
     JSファイルに直接記載されていたCSSスタイルをCSSファイルに移動
+
+### 24-07-23    2.3.1
+    createItemsを内部関数として宣言
