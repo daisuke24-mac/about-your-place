@@ -3,16 +3,16 @@ import connectDB from '../../utils/database.js'
 import { ItemModel } from '../../utils/schemaModels.js'
 import { getDescription } from '../../utils/gemini.js'
 
-const createItems = async (item) => {
-    try {
-        await ItemModel.create(item)
-        return NextResponse.json({message: "successed to create item"})
-    } catch (error) {
-        return NextResponse.json({message: "failed to create item"})
-    }
-}
-
 export async function POST(req) {
+    const createItems = async (item) => {
+        try {
+            await ItemModel.create(item)
+            return NextResponse.json({message: "successed to create item"})
+        } catch (error) {
+            return NextResponse.json({message: "failed to create item"})
+        }
+    }
+    
     try {
         await connectDB()
         const body = await req.json()
