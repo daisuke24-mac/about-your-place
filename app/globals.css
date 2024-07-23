@@ -38,9 +38,18 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+  /* New variables for homepage */
+  --hover: all 0.2s ease-in;
+  --slide: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+  --grey: #4f4f4f;
+  --white: #ffffff;
+  --green: #39bda7;
+  --transparent: rgba(255, 255, 255, 0);
+  --black-05: rgba(0, 0, 0, 0.05);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
@@ -104,7 +113,7 @@ a {
   html {
     color-scheme: dark;
   }
-}
+} */
 
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
@@ -129,4 +138,290 @@ body {
 #app {
   width: 100vw;
   height: 100vh;
+}
+
+#homepage {
+  background: url('http://thecodeplayer.com/uploads/media/geometry.png');
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Ubuntu', sans-serif;
+}
+/* TOPPAGE UI */
+  #homepage .container {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+
+  #homepage .menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+  /* .control-panel */
+  #homepage .changeOption,
+  #homepage .control-panel,
+  #homepage .showPosition {
+    background-color: #eeeeee;
+    margin: 2px;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 2px solid var(--green);
+    overflow: hidden;
+    z-index: 1000;
+    position: absolute;
+  }
+
+  #homepage .changeOption {
+    left: 0;
+    top: 5px;
+    /* about text same as button_text */
+    /* about effect same as buttonCtrl */
+  }
+
+  #homepage .control-panel {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    min-width: 120px;
+  }
+
+  #homepage .showPosition {
+    left: 0;
+    bottom: 0%;
+    width: 140px;
+  } 
+  /* button */
+  #homepage .buttonPlace {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  #homepage .buttonCtrl {
+    margin: 5px;
+    padding: 5px;
+    min-width: 120px;
+    height: 40px;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 2px solid var(--green);
+    transition: var(--hover);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #homepage .buttonCtrl::before,
+  #homepage .buttonCtrl::after,
+  #homepage .changeOption::before,
+  #homepage .changeOption::after {
+    content: "";
+    position: absolute;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    border-radius: 50%;
+    display: block;
+    transition: var(--slide);
+    z-index: -1;
+  }
+  
+  #homepage .buttonCtrl::before,
+  #homepage .changeOption::before {
+    background-color: var(--black-05);
+    left: 50%;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+  }
+  
+  #homepage .buttonCtrl::after,
+  #homepage .changeOption::after {
+    background-color: var(--green);
+    left: 55%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.45);
+    top: 180%;
+    width: 160%;
+    height: 190%;
+  }
+
+  #homepage .buttonCtrl:hover,
+  #homepage .changeOption:hover {
+    color: var(--white);
+    background-color: var(--green);
+    border: 2px solid var(--grey);
+  }
+  
+  #homepage .buttonCtrl:hover 
+  .button_text {
+    color: var(--white);
+  }
+
+  #homepage .buttonCtrl:hover::before,
+  #homepage .buttonCtrl:hover::after,
+  #homepage .changeOption:hover::before,
+  #homepage .changeOption:hover::after {
+    background-color: var(--green);
+    position: absolute;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  }
+  
+  #homepage .buttonCtrl:hover::before,
+  #homepage .changeOption:hover::before {
+    top: -35%;
+  }
+  
+  #homepage .buttonCtrl:hover::after,
+  #homepage .changeOption:hover::after{
+    top: -45%;
+  }
+
+#homepage .button_text,
+#homepage .changeOption {
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
+  color: #4f4f4f;
+}
+
+#homepage .button_icon {
+  display: none;
+}
+
+#homepage .text_top {
+  text-indent: 5px;
+  padding: 1px;
+  margin: 0px;
+  color: #003366;
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+/* @media (max-width: 900px) {
+} */
+
+@media (max-width: 590px) {
+  /* .control-panel */
+  #homepage .control-panel,
+  #homepage .showPosition {
+    width: 22%;
+    min-width: 150px;
+  }
+
+  #homepage .control-panel {
+    left: 0;
+    transform: translateX(0%);
+    top: 40px;
+  }
+
+  #homepage .buttonPlace {
+    align-items: center;
+  }
+
+  /* button */
+  #homepage .buttonCtrl {
+    min-width: auto;
+    width: 70px;
+    height: 40px;
+    padding: 0;
+    border-radius: 10px;
+    border: 2px solid var(--green);
+    background-color: white;
+  }
+
+  #homepage .button_text {
+    display: none;
+  }
+
+  #homepage .button_icon {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 10%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+  }
+
+  #homepage .buttonCtrl:hover {
+    border: 2px solid var(--grey);
+  }
+
+  #homepage .buttonCtrl:hover
+  .button_icon {
+    background-color: var(--green);
+  }
+
+}
+
+/* #homepage .autocomplete-control {
+  width: auto;
+  background-color: pink;
+} */
+
+.landInf {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  max-width: 550px;
+  max-height: calc(100vh - 40px);
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 1000;
+  overflow: auto;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  border: 2px solid var(--green);
+}
+
+.landInfButton_p,
+.landInfButton_m {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  color: black;
+  font-size: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.landInfButton_p {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.landInfButton_m {
+  top: 0;
+  right: 0;
+}
+
+.landInfText {
+  font-size: medium;
+  font-weight: 500;
 }

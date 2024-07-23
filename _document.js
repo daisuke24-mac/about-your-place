@@ -9,6 +9,10 @@ export default function Document() {
           name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
+        <link
+          href="https://fonts.googleapis.com/css?family=Ubuntu:700&subset=latin,latin-ext"
+          rel="stylesheet"
+        />
       </Head> 
       <body>
         <Main />
